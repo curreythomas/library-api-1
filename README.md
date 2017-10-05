@@ -95,6 +95,48 @@ POST /books
 
 Retrieves a single book by the book `{id}` route parameter.  
 
+**Example**
+
+```
+GET /books/book_brave_new_world
+```
+
+**Response 200**
+
+```
+{
+  "_id": "book_brave_new_world",
+  "_rev": "2-e158939dfabc095988f9f4ddaa0e942e",
+  "title": "A Brave New World",
+  "author": "author_aldous_huxley",
+  "type": "book",
+  "publisher": "Penguin Books",
+  "ISBN": "12947281",
+  "pages": 254,
+  "genre": "Fiction",
+  "description": "Brave New World is a novel written in 1931 by A Huxley, and published in 1932. Set in London in the year AD 2540 (632 A.F.—'After Ford'—in the book), the novel anticipates developments in reproductive technology, sleep-learning, psychological manipulation, and classical conditioning that are combined to make a profound change in society.",
+  "rating": 95,
+  "prices": [
+    {
+      "type": "paperback",
+      "price": 9.99
+    },
+    {
+      "type": "hardback",
+      "price": 19.99
+    },
+    {
+      "type": "audio",
+      "price": 19.99
+    },
+    {
+      "type": "kindle",
+      "price": 12.99
+    }
+  ]
+}
+```
+
 
 ### Route Parameters
 
