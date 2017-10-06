@@ -55,7 +55,14 @@ $ npm start
 
 ## Create a book - `POST /books`
 
-Add a book to the collection of books by providing a new book resource in the request body.
+Add a book to the collection of books by providing a new book resource in the request body.  The following fields are required:
+
+- `title`
+- `author`
+- `ISBN`
+- `genre`
+- `description`
+
 
 **Example**
 
@@ -143,7 +150,57 @@ GET /books/book_brave_new_world
 
 ## Update a book - `PUT /books/{id}`
 
-Updates a single book using the book `{id}` route parameter.
+Update a book in the collection of books.  Supply the book resource to replace in the request body.  Include the `_id` and `_rev` keys in the resource.  The following fields are required:
+
+  - `_id`
+  - `_rev`
+  - `type`
+  - `title`
+  - `author`
+  - `ISBN`
+  - `genre`
+  - `description`
+
+  **Example**
+
+  ```
+  PUT /books
+
+  {
+    "_id": "book_best_of_times",
+    "_rev": "1-ffe4d573caee404da6c1662e32cf429b",
+    "title": "The Best of times",
+    "author": "author_mary_jenkins",
+    "type": "book",
+    "publisher": "Penguin Books",
+    "ISBN": "12947333",
+    "pages": 199,
+    "genre": "Fiction",
+    "description": "blah",
+    "rating": 78,
+    "prices": [
+      {
+        "type": "paperback",
+        "price": 9.99
+      },
+      {
+        "type": "hardback",
+        "price": 19.99
+      }
+    ]
+  }
+  ```
+
+  **Response 200**
+
+  ```
+  {
+    "ok": true,
+    "id": "book_best_of_times",
+    "rev": "2-SVF157A5EA545C99B00FF904EEF067DFE"
+  }
+  ```
+
 
 ## Delete a book - `DELETE /books/{id}`
 
