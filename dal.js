@@ -1,6 +1,7 @@
 require('dotenv').config()
 
 const PouchDB = require('pouchdb')
+const pkGen = require('./lib/build-pk')
 const dbName = process.env.COUCH_DATABASE
 const dbURL = process.env.COUCH_URL
 
@@ -8,7 +9,21 @@ console.log('db is' + dbURL + dbName)
 
 const db = new PouchDB(dbURL + dbName)
 
-const addBook = (book, callback) => add(book, callback)
+const addBook = (book, callback) => {
+  //build an _id prop that takes the title of the book and does the following:
+  // such as   "title": "A Brave New World"
+  // transform it into "book_brave_new_world"
+  //  require ramda
+  //  lower case
+  //  strip off the the A or The if its the first word
+  //  concatenate the word "book_"
+  //  replace the spaces with underscores _
+
+  book._id = pkGen('book', '_', book.title)
+
+  add(book, callback)
+  //add(merge(book, {_id: pkGen("book", "_", prop('title', book)}), callback)
+}
 const getBook = (id, callback) => get(id, callback)
 const updateBook = (book, callback) => update(book, callback)
 const deleteBook = (id, callback) => deleteDoc(id, callback)

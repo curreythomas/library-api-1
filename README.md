@@ -137,14 +137,33 @@ GET /books/book_brave_new_world
 }
 ```
 
-
 ### Route Parameters
 
   - `id` - used to identify a book in the collection of books.
 
 ## Update a book - `PUT /books/{id}`
 
-Updates a single book by the book `{id}` route parameter.
+Updates a single book using the book `{id}` route parameter.
+
+## Delete a book - `DELETE /books/{id}`
+
+Deletes a single book using the book `{id}` route parameter.
+
+**Example**
+
+```
+DELETE /books/book_brave_new_world
+```
+
+**Response 200**
+
+```
+{
+  "ok": true,
+  "id": "book_brave_new_world",
+  "rev": "2-9AF304BE281790604D1D8A4B0F4C9ADB"
+}
+```
 
 
 
