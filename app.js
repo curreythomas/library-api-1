@@ -69,19 +69,36 @@ app.get('/authors/:id', (req, res, next) =>
   })
 )
 
-// app.put('/authors/:id', (req, res, next) => {
-//   if(isEmpty(prop('body'),req)){
-//     return next(new HTTPError(400,'Missing request body.  Content-Type header should be application/json.'))
-//   }
-//   const missingFields = checkRequiredFields(['_id','_rev','placeOfBirth','birthDate','name'],prop('body',req))
-//   if(not(isEmpty(missingFields))){
-//     return next(new HTTPError(401,`Missing required fields: ${join(' ',missingFields)}`))
-//   }
-//   updateAuthor(prop('body',req),(err,result)=>{
-//     if(err)
-//   })
-//
-// })
+app.put('/authors/:id', (req, res, next) => {
+  if (isEmpty(prop('body'), req)) {
+    return next(
+      new HTTPError(
+        400,
+        'Missing request body.  Content-Type header should be application/json.'
+      )
+    )
+  }
+  const missingFields = checkRequiredFields(
+    ['_id', '_rev', 'placeOfBirth', 'birthDate', 'name'],
+    prop('body', req)
+  )
+  if (not(isEmpty(missingFields))) {
+    return next(
+      new HTTPError(401, `Missing required fields: ${join(' ', missingFields)}`)
+    )
+  }
+  updateAuthor(prop('body', req), (err, result) => {
+    if (err) return next(new HTTPError(err.status, err.message))
+    res.status(200).send(result)
+  })
+})
+
+app.delete('/authors/:id', (req, res, next) => {
+  deleteAuthor(path(['params', 'id'], req), (err, result) => {
+    if (err) return next(new HTTPError(err.status, err.message))
+    res.status(200).send(result)
+  })
+})
 
 app.post('/books', function(req, res, next) {
   // check to make sure the request body exists

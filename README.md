@@ -296,7 +296,7 @@ Add an author to the collection of authors by providing a new author resource in
   }
   ```
 
-  ## Update an author - `PUT /authors/author_aldous_huxley`
+## Update an author - `PUT /authors/author_aldous_huxley`
 
   Update an author in the collection of authors by providing a updated author resource in the request body.  The following fields are required:
 
@@ -307,7 +307,7 @@ Add an author to the collection of authors by providing a new author resource in
     - `placeOfBirth`
     - `birthDate`
 
-    **Example**
+  **Example**
 
     ```
     POST /authors
@@ -319,12 +319,33 @@ Add an author to the collection of authors by providing a new author resource in
     }
     ```
 
-    **Response 200**
+  **Response 200**
 
     ```
     {
       "ok": true,
       "id": "author_aldous_huxley",
       "rev": "1-A6157A5EA545C99B00FF904EEF056KFRT"
+    }
+    ```
+
+
+## Delete an author - `DELETE /authors/{id}`
+
+  Deletes a single author using the author `{id}` route parameter.
+
+  **Example**
+
+    ```
+    DELETE /authors/author_arthur_conan_doyle
+    ```
+
+  **Response 200**
+
+    ```
+    {
+      "ok": true,
+      "id": "author_arthur_conan_doyle",
+      "rev": "2-9AF304BE281790604D1D8A4B0F4C9ADB"
     }
     ```
