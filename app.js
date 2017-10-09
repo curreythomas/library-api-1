@@ -183,9 +183,14 @@ app.delete('/books/:id', (req, res, next) =>
 ////////////////////////
 //  ERROR HANDLER
 ///////////////////////
-app.use((err, req, res, next) => {
-  console.log(req.method, ' ', req.path, ' ', 'error ', err)
-  next(err)
+app.use((foo, req, res, next) => {
+  console.log(req.method, ' ', req.path, ' ', 'error ', foo)
+  next(foo)
 })
 app.use((err, req, res, next) => res.status(err.status || 500).send(err))
-app.listen(port, () => console.log('API is up on port', port))
+
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => console.log('API is up on port', port))
+}
+
+module.exports = app

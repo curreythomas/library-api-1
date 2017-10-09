@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "PORT=5555 node app.js",
-    "voodoo": "PORT=6666 node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test tape test/**/*-test.js"
   },
   "repository": {
     "type": "git",
