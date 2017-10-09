@@ -235,3 +235,39 @@ DELETE /books/book_brave_new_world
   - genre
 
   Example `GET \books?author=William F Buckley`
+
+
+
+
+
+## AUTHORS
+
+## Create an author - `POST /authors`
+
+Add an author to the collection of authors by providing a new author resource in the request body.  The following fields are required:
+
+  - `name`
+  - `placeOfBirth`
+  - `birthDate`
+
+  **Example**
+
+  ```
+  POST /authors
+
+  {
+    "name": "Aldous Huxley",
+    "placeOfBirth": "London",
+    "birthDate": "1932-05-01"
+  }
+  ```
+
+  **Response 200**
+
+  ```
+  {
+    "ok": true,
+    "id": "author_aldous_huxley",
+    "rev": "1-A6157A5EA545C99B00FF904EEF056KFRT"
+  }
+  ```
