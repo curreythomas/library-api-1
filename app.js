@@ -1,6 +1,15 @@
 require('dotenv').config()
 const port = process.env.PORT || 4000
-const { getBook, deleteBook, addBook, updateBook, getAuthor, deleteAuthor, addAuthor, updateAuthor } = require('./dal.js')
+const {
+  getBook,
+  deleteBook,
+  addBook,
+  updateBook,
+  getAuthor,
+  deleteAuthor,
+  addAuthor,
+  updateAuthor
+} = require('./dal.js')
 const express = require('express')
 const app = express()
 const HTTPError = require('node-http-error')
@@ -10,24 +19,47 @@ const { not, isEmpty, join, omit, merge, prop, __, compose } = require('ramda')
 
 app.use(bodyParser.json())
 
-app.post('/authors', function ( req, res, next) {
-if (isEmpty(prop('body', req)))  {
-  return next(
-    new HTTPError(
-      400,
-      'Missing request body.  Content-Type header should be application/json.'
+app.post('/authors', function(req, res, next) {
+  if (isEmpty(prop('body', req))) {
+    return next(
+      new HTTPError(
+        400,
+        'Missing request body.  Content-Type header should be application/json.'
+      )
     )
+  }
+
+  const body = compose(
+    omit(['_id', '_rev']),
+    merge(__, { type: 'author' }),
+    prop('body')
+  )(req)
+
+  const missingFields = checkRequiredFields(
+    ['name', 'placeOfBirth', 'birthDate'],
+    body
   )
-}
-const body = compose(
-  omit(['_id', '_rev']),
-  merge(__, { type: 'author'}),
-  prop('body')
-)(req)
 
+  if (not(isEmpty(missingFields))) {
+    return next(
+      new HTTPError(400, `Missing required fields: ${join(' ', missingFields)}`)
+    )
+  }
 
-
+  addAuthor(body, (err, result) => {
+    if (err) return next(new HTTPError(err.status, err.message))
+    res.status(201).send(result)
+  })
 })
+
+app.get('/authors/:id', (req, res, next) =>
+  getAuthor(path(['params', 'id'], req), (err, doc) => {
+    if (err) return next(new HTTPError(err.status, err.message))
+    res.status(200).send(doc)
+  })
+)
+
+//app.put('/authors/:id', (req, res, next) => {})
 
 app.post('/books', function(req, res, next) {
   // check to make sure the request body exists
@@ -44,9 +76,6 @@ app.post('/books', function(req, res, next) {
 
   // omit an _id or _rev prop if present
   //body = omit(['_id', '_rev'], body)
-
-
-
 
   const body = compose(
     omit(['_id', '_rev']),
@@ -72,6 +101,14 @@ app.post('/books', function(req, res, next) {
   addBook(body, function(err, addResult) {
     if (err) return next(new HTTPError(err.status, err.message))
     res.status(201).send(addResult)
+  })
+})
+
+// get a book   GET /books/id
+app.get('/books/:id', function(req, res, next) {
+  getBook(req.params.id, function(err, doc) {
+    if (err) return next(new HTTPError(err.status, err.message))
+    res.status(200).send(doc)
   })
 })
 
@@ -102,14 +139,6 @@ app.put('/books/:id', function(req, res, next) {
   updateBook(prop('body', req), function(err, updateResult) {
     if (err) return next(new HTTPError(err.status, err.message))
     res.status(200).send(updateResult)
-  })
-})
-
-// get a book   GET /books/id
-app.get('/books/:id', function(req, res, next) {
-  getBook(req.params.id, function(err, doc) {
-    if (err) return next(new HTTPError(err.status, err.message))
-    res.status(200).send(doc)
   })
 })
 
