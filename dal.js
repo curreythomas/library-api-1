@@ -77,7 +77,11 @@ const dal = {
   addBook,
   getBook,
   updateBook,
-  deleteBook
+  deleteBook,
+  addAuthor,
+  getAuthor,
+  updateAuthor,
+  deleteAuthor
 }
 
 module.exports = dal

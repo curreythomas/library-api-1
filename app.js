@@ -1,6 +1,6 @@
 require('dotenv').config()
 const port = process.env.PORT || 4000
-const { getBook, deleteBook, addBook, updateBook } = require('./dal.js')
+const { getBook, deleteBook, addBook, updateBook, getAuthor, deleteAuthor, addAuthor, updateAuthor } = require('./dal.js')
 const express = require('express')
 const app = express()
 const HTTPError = require('node-http-error')
@@ -9,6 +9,25 @@ const checkRequiredFields = require('./lib/check-required-fields.js')
 const { not, isEmpty, join, omit, merge, prop, __, compose } = require('ramda')
 
 app.use(bodyParser.json())
+
+app.post('/authors', function ( req, res, next) {
+if (isEmpty(prop('body', req)))  {
+  return next(
+    new HTTPError(
+      400,
+      'Missing request body.  Content-Type header should be application/json.'
+    )
+  )
+}
+const body = compose(
+  omit(['_id', '_rev']),
+  merge(__, { type: 'author'}),
+  prop('body')
+)(req)
+
+
+
+})
 
 app.post('/books', function(req, res, next) {
   // check to make sure the request body exists
@@ -25,6 +44,9 @@ app.post('/books', function(req, res, next) {
 
   // omit an _id or _rev prop if present
   //body = omit(['_id', '_rev'], body)
+
+
+
 
   const body = compose(
     omit(['_id', '_rev']),
