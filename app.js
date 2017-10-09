@@ -15,7 +15,17 @@ const app = express()
 const HTTPError = require('node-http-error')
 const bodyParser = require('body-parser')
 const checkRequiredFields = require('./lib/check-required-fields.js')
-const { not, isEmpty, join, omit, merge, prop, __, compose } = require('ramda')
+const {
+  not,
+  isEmpty,
+  join,
+  omit,
+  merge,
+  prop,
+  __,
+  compose,
+  path
+} = require('ramda')
 
 app.use(bodyParser.json())
 

@@ -271,3 +271,60 @@ Add an author to the collection of authors by providing a new author resource in
     "rev": "1-A6157A5EA545C99B00FF904EEF056KFRT"
   }
   ```
+
+## GET/authors/{id}
+
+  Retrieve a single author by id.
+
+  **Example**
+
+  ```
+  GET /authors/author_aldous_huxley
+
+  ```
+
+  **Response 200**
+
+  ```
+  {
+      "_id": "author_aldous_huxley",
+      "_rev": "1-3ce437e5fb2afd7277bc5c4a6375edcb",
+      "name": "Aldous Huxley",
+      "placeOfBirth": "London",
+      "birthDate": "1932-05-01",
+      "type": "author"
+  }
+  ```
+
+  ## Update an author - `PUT /authors/author_aldous_huxley`
+
+  Update an author in the collection of authors by providing a updated author resource in the request body.  The following fields are required:
+
+    - `_id`
+    - `_rev`
+    - `type`  
+    - `name`
+    - `placeOfBirth`
+    - `birthDate`
+
+    **Example**
+
+    ```
+    POST /authors
+
+    {
+      "name": "Aldous Huxley",
+      "placeOfBirth": "London",
+      "birthDate": "1932-05-01"
+    }
+    ```
+
+    **Response 200**
+
+    ```
+    {
+      "ok": true,
+      "id": "author_aldous_huxley",
+      "rev": "1-A6157A5EA545C99B00FF904EEF056KFRT"
+    }
+    ```
