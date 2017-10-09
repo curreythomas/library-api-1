@@ -29,7 +29,11 @@ const {
 
 app.use(bodyParser.json())
 
-app.post('/authors', function(req, res, next) {
+/////////////////
+///  AUTHORS
+////////////////
+
+app.post('/authors', (req, res, next) => {
   if (isEmpty(prop('body', req))) {
     return next(
       new HTTPError(
@@ -56,17 +60,15 @@ app.post('/authors', function(req, res, next) {
     )
   }
 
-  addAuthor(body, (err, result) => {
-    if (err) return next(new HTTPError(err.status, err.message))
-    res.status(201).send(result)
-  })
+  addAuthor(body)
+    .then(result => res.status(201).send(result))
+    .catch(err => next(new HTTPError(err.status, err.message)))
 })
 
 app.get('/authors/:id', (req, res, next) =>
-  getAuthor(path(['params', 'id'], req), (err, doc) => {
-    if (err) return next(new HTTPError(err.status, err.message))
-    res.status(200).send(doc)
-  })
+  getAuthor(path(['params', 'id'], req))
+    .then(doc => res.status(200).send(doc))
+    .catch(err => next(new HTTPError(err.status, err.message)))
 )
 
 app.put('/authors/:id', (req, res, next) => {
@@ -87,21 +89,22 @@ app.put('/authors/:id', (req, res, next) => {
       new HTTPError(401, `Missing required fields: ${join(' ', missingFields)}`)
     )
   }
-  updateAuthor(prop('body', req), (err, result) => {
-    if (err) return next(new HTTPError(err.status, err.message))
-    res.status(200).send(result)
-  })
+
+  updateAuthor(prop('body', req))
+    .then(result => res.status(200).send(result))
+    .catch(err => next(new HTTPError(err.status, err.message)))
 })
 
 app.delete('/authors/:id', (req, res, next) => {
-  deleteAuthor(path(['params', 'id'], req), (err, result) => {
-    if (err) return next(new HTTPError(err.status, err.message))
-    res.status(200).send(result)
-  })
+  deleteAuthor(path(['params', 'id'], req))
+    .then(result => res.status(200).send(result))
+    .catch(err => next(new HTTPError(err.status, err.message)))
 })
 
-app.post('/books', function(req, res, next) {
-  // check to make sure the request body exists
+/////////////////
+///  BOOKS
+////////////////
+app.post('/books', (req, res, next) => {
   if (isEmpty(prop('body', req))) {
     return next(
       new HTTPError(
@@ -110,11 +113,6 @@ app.post('/books', function(req, res, next) {
       )
     )
   }
-  // force the type prop to be 'book'
-  //var body = merge(prop('body', req), {type: 'book'})
-
-  // omit an _id or _rev prop if present
-  //body = omit(['_id', '_rev'], body)
 
   const body = compose(
     omit(['_id', '_rev']),
@@ -122,7 +120,6 @@ app.post('/books', function(req, res, next) {
     prop('body')
   )(req)
 
-  // check to make sure required fields are present in the request body
   const missingFields = checkRequiredFields(
     ['title', 'author', 'ISBN', 'genre', 'description'],
     body
@@ -137,21 +134,18 @@ app.post('/books', function(req, res, next) {
     )
   }
 
-  addBook(body, function(err, addResult) {
-    if (err) return next(new HTTPError(err.status, err.message))
-    res.status(201).send(addResult)
-  })
+  addBook(body)
+    .then(book => res.status(201).send(book))
+    .catch(err => next(new HTTPError(err.status, err.message)))
 })
 
-// get a book   GET /books/id
-app.get('/books/:id', function(req, res, next) {
-  getBook(req.params.id, function(err, doc) {
-    if (err) return next(new HTTPError(err.status, err.message))
-    res.status(200).send(doc)
-  })
-})
+app.get('/books/:id', (req, res, next) =>
+  getBook(path(['params', 'id'], req))
+    .then(doc => res.status(200).send(doc))
+    .catch(err => next(new HTTPError(err.status, err.message)))
+)
 
-app.put('/books/:id', function(req, res, next) {
+app.put('/books/:id', (req, res, next) => {
   if (isEmpty(prop('body', req))) {
     return next(
       new HTTPError(
@@ -175,25 +169,23 @@ app.put('/books/:id', function(req, res, next) {
     )
   }
 
-  updateBook(prop('body', req), function(err, updateResult) {
-    if (err) return next(new HTTPError(err.status, err.message))
-    res.status(200).send(updateResult)
-  })
+  updateBook(prop('body', req))
+    .then(updateResult => res.status(200).send(updateResult))
+    .catch(err => next(new HTTPError(err.status, err.message)))
 })
 
-app.delete('/books/:id', function(req, res, next) {
-  deleteBook(req.params.id, function(err, deleteResponse) {
-    if (err) return next(new HTTPError(err.status, err.message))
-    res.status(200).send(deleteResponse)
-  })
-})
+app.delete('/books/:id', (req, res, next) =>
+  deleteBook(path(['params', 'id'], req))
+    .then(deleteResponse => res.status(200).send(deleteResponse))
+    .catch(err => next(new HTTPError(err.status, err.message)))
+)
 
 ////////////////////////
 //  ERROR HANDLER
 ///////////////////////
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   console.log(req.method, ' ', req.path, ' ', 'error ', err)
-  res.status(err.status || 500).send(err)
+  next(err)
 })
-
+app.use((err, req, res, next) => res.status(err.status || 500).send(err))
 app.listen(port, () => console.log('API is up on port', port))
