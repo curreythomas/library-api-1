@@ -1,22 +1,6 @@
-require('dotenv').config()
-const PouchDB = require('pouchdb')
 const pkGen = require('./lib/build-pk')
 const { prop, assoc } = require('ramda')
 const { add, get, update, deleteDoc } = require('./lib/dal-helper')
-
-const dbName =
-  process.env.NODE_ENV === 'test'
-    ? process.env.COUCH_DATABASE_TEST
-    : process.env.COUCH_DATABASE
-
-const dbURL =
-  process.env.NODE_ENV === 'test'
-    ? process.env.COUCH_URL_TEST
-    : process.env.COUCH_URL
-
-console.log('db is' + dbURL + dbName)
-
-const db = new PouchDB(dbURL + dbName)
 
 const addBook = book => {
   book._id = pkGen('book', '_', book.title)
