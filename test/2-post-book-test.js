@@ -51,8 +51,10 @@ test('POST /books', t => {
       const status = res.statusCode //201
       const bookID = addedBook.id // 'book_bugs_life'
       const bookOK = addedBook.ok // true
-
+      t.plan(3)
       t.equals(status, 201, 'Status Code 201?')
       t.equals(bookOK, true, 'ok is true?')
+      t.equals(bookID, 'book_bugs_life', 'book ID ok?')
+      t.end()
     })
 })
