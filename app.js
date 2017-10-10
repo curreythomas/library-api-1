@@ -29,6 +29,8 @@ const {
 
 app.use(bodyParser.json())
 
+app.get('/', (req, res, next) => res.send('The librarian welcomes you, shhhh.'))
+
 /////////////////
 ///  AUTHORS
 ////////////////
