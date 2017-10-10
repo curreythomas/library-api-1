@@ -45,7 +45,7 @@ test('POST /books', t => {
     .post('/books')
     .send(bookWereAdding)
     .expect(201)
-    .expect('Content-Type': /json/)
+    .expect(('Content-Type', 'json'))
     .end((err, res) => {
       const addedBook = res.body // see above
       const status = res.statusCode //201
