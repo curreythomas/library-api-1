@@ -1,6 +1,7 @@
 const test = require('tape')
 const testPost = require('./test-post.js')
 const testGet = require('./test-get.js')
+const testDelete = require('./test-delete.js')
 const { merge } = require('ramda')
 /*
  ('BOOKS CRUD TEST', '/books', {book object}, 'book_bugs_life')
@@ -15,11 +16,10 @@ module.exports = (testName, path, postRequestBody, pk) => {
         .then(body =>
           testGet(t, `${path}/${pk}`, merge(postRequestBody, { _id: pk }))
         )
+        .then(body => testDelete(t, `${path}/${pk}`, pk))
         .then(body => resolve(body))
         .then(() => t.end())
-        .catch(err => {
-          reject(err)
-        })
+        .catch(err => reject(err))
     })
   })
 }
