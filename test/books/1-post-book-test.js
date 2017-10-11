@@ -1,6 +1,6 @@
 const test = require('tape')
 const request = require('supertest')
-const app = require('../app.js')
+const app = require('../../app.js')
 const { prop } = require('ramda')
 
 /* RESPONSE - 201 and Sample Response will be SIMILAR TO THIS...

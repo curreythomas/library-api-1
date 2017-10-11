@@ -1,6 +1,6 @@
 const test = require('tape')
 const request = require('supertest')
-const app = require('../app.js')
+const app = require('../../app.js')
 const { omit, compose, prop } = require('ramda')
 
 test('GET /books/:id', t => {
