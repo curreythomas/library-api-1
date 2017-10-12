@@ -3,11 +3,6 @@ const testPost = require('./test-post.js')
 const testGet = require('./test-get.js')
 const testDelete = require('./test-delete.js')
 const { merge } = require('ramda')
-/*
- ('BOOKS CRUD TEST', '/books', {book object}, 'book_bugs_life')
-*/
-
-// testGet(t, /books/book_bugs_life)
 
 module.exports = (testName, path, postRequestBody, pk) => {
   return new Promise((resolve, reject) => {

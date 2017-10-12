@@ -19,6 +19,12 @@ const postRequestBody = {
     { type: 'kindle', price: 12.99 }
   ]
 }
+const postAuthorRequestBody = {
+  name: 'Aldous Huxley',
+  placeOfBirth: 'London',
+  birthDate: '1932-05-01',
+  type: 'author'
+}
 
 getHomeTest()
   .then(text =>
@@ -27,6 +33,14 @@ getHomeTest()
       '/books',
       postRequestBody,
       'book_brave_new_world'
+    )
+  )
+  .then(body =>
+    groupTestCrud(
+      'AUTHORS CRUD TEST',
+      '/authors',
+      postAuthorRequestBody,
+      'author_aldous_huxley'
     )
   )
   .then(body => console.log('Success', body))
