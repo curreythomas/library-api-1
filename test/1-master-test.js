@@ -1,5 +1,7 @@
-const groupTestCrud = require('./lib/group-test-crud')
-const getHomeTest = require('./lib/test-get-home')
+const { testGetHome, testGroupCRUD } = require('express-crud-promise-test')
+const app = require('../app.js')
+//const groupTestCrud = require('./lib/group-test-crud')
+//const getHomeTest = require('./lib/test-get-home')
 //  groupTestCrud(testName, path, postRequestBody, pk)
 
 const postRequestBody = {
@@ -19,6 +21,7 @@ const postRequestBody = {
     { type: 'kindle', price: 12.99 }
   ]
 }
+
 const postAuthorRequestBody = {
   name: 'Aldous Huxley',
   placeOfBirth: 'London',
@@ -26,9 +29,10 @@ const postAuthorRequestBody = {
   type: 'author'
 }
 
-getHomeTest()
+testGetHome(app)
   .then(text =>
-    groupTestCrud(
+    testGroupCRUD(
+      app,
       'BOOKS CRUD TEST',
       '/books',
       postRequestBody,
@@ -36,7 +40,8 @@ getHomeTest()
     )
   )
   .then(body =>
-    groupTestCrud(
+    testGroupCRUD(
+      app,
       'AUTHORS CRUD TEST',
       '/authors',
       postAuthorRequestBody,
