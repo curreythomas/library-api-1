@@ -1,8 +1,5 @@
 const { testGetHome, testGroupCRUD } = require('express-crud-promise-test')
 const app = require('../app.js')
-//const groupTestCrud = require('./lib/group-test-crud')
-//const getHomeTest = require('./lib/test-get-home')
-//  groupTestCrud(testName, path, postRequestBody, pk)
 
 const postRequestBody = {
   title: 'A Brave New World',
