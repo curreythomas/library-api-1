@@ -1,0 +1,37 @@
+{
+  "name": "library-api",
+  "version": "1.0.0",
+  "description": "An api to manage books and their authors.",
+  "main": "app.js",
+  "scripts": {
+    "start": "PORT=5555 node app.js",
+    "test": "NODE_ENV=test tape test/**/*-test.js | faucet",
+    "testVerbose": "NODE_ENV=test tape test/**/*-test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tripott/library-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tripott/library-api/issues"
+  },
+  "homepage": "https://github.com/tripott/library-api#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.1",
+    "mysql": "^2.15.0",
+    "node-http-error": "^2.0.0",
+    "pouchdb": "^6.3.4",
+    "ramda": "^0.24.1"
+  },
+  "devDependencies": {
+    "express-crud-promise-test": "^1.2.0",
+    "faucet": "0.0.1",
+    "supertest": "^3.0.0",
+    "tape": "^4.8.0"
+  }
+}
