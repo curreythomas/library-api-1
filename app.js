@@ -192,7 +192,9 @@ app.use((foo, req, res, next) => {
 app.use((err, req, res, next) => res.status(err.status || 500).send(err))
 
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(port, () => console.log('API is up on port', port))
+  app.listen(port, () =>
+    console.log(`API is up on port with ${process.env.DAL}`, port)
+  )
 }
 
 module.exports = app
