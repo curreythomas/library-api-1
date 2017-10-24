@@ -154,7 +154,7 @@ UNLOCK TABLES;
 
 INSERT INTO `bookPrice` VALUES (1,1,'hardback',9.99),(2,1,'audio',19.99),(3,1,'kindle',19.99),(4,1,'paperback',8.99),(5,4,'paperback',28.99),(6,4,'hardback',8.99),(7,2,'hardback',19.00);
 
-CREATE VIEW vbookPrices AS 
+CREATE VIEW vbookPrices AS
 SELECT book.ID as ID
 , book.title
 , book.publisher
@@ -168,7 +168,7 @@ SELECT book.ID as ID
 , bookPrice.bookID as bookPricebookID
 , bookPrice.type
 , bookPrice.price
-FROM book 
-INNER JOIN bookPrice ON book.ID = bookPrice.bookID
+FROM book
+LEFT JOIN bookPrice ON book.ID = bookPrice.bookID
 
 >>>>>>> 21140a325eaf0da8b2879599d2f1cf2190fe22a1
